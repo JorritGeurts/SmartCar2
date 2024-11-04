@@ -207,24 +207,24 @@ namespace SmartCar.ViewModels
             if (ClassifiedCar.IsDamaged)
             {
                 newPrice *= 0.9;
-                foreach (var damage in DamageEntries)
-                {
-                    switch (damage.Severity)
-                    {
-                        case "Minor":
-                            newPrice *= 0.95;
-                            break;
-                        case "Moderate":
-                            newPrice *= 0.90;
-                            break;
-                        case "Severe":
-                            newPrice *= 0.85;
-                            break;
-                        case "Critical":
-                            newPrice *= 0.80;
-                            break;
-                    }
-                }
+                //foreach (var damage in DamageEntries)
+                //{
+                //    switch (damage.Severity)
+                //    {
+                //        case "Minor":
+                //            newPrice *= 0.95;
+                //            break;
+                //        case "Moderate":
+                //            newPrice *= 0.90;
+                //            break;
+                //        case "Severe":
+                //            newPrice *= 0.85;
+                //            break;
+                //        case "Critical":
+                //            newPrice *= 0.80;
+                //            break;
+                //    }
+                //}
             }
 
             ClassifiedCar.OldPrice = basePrice;
