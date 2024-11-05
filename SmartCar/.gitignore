@@ -73,5 +73,3 @@ src/iOS/obj/
 # Log files
 *.log
 
-# npm package folder
-node_modules/

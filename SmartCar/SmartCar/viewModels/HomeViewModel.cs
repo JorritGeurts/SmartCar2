@@ -5,7 +5,7 @@ using SafariSnap.Services;
 using SmartCar.Messages;
 using SmartCar.Models;
 using SmartCar.Services;
-using SmartCar.viewModels;
+using SmartCar.ViewModels;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows.Input;

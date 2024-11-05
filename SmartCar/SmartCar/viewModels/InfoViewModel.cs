@@ -1,21 +1,47 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using SmartCar.Messages;
 using SmartCar.Models;
 using SmartCar.Services;
-using SmartCar.viewModels;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
+
 
 namespace SmartCar.ViewModels
 {
-    public class InfoViewModel : ObservableObject, IInfoViewModel
+    public class InfoViewModel : ObservableRecipient, IInfoViewModel, IRecipient<RefreshCarMessage>
     {
         private readonly IStorageService _storageService;
+        public void Receive(RefreshCarMessage message)
+        {
+            LoadCars();
+        }
 
-        public ObservableCollection<SmarterCar> Cars { get; } = new ObservableCollection<SmarterCar>();
-
-        public InfoViewModel(IStorageService storageService)
+        //public ObservableCollection<SmarterCar> Cars { get; } = new ObservableCollection<SmarterCar>();
+        private ObservableCollection<SmarterCar> cars;
+        public ObservableCollection<SmarterCar> Cars
+        {
+            get => cars;
+            set => SetProperty(ref cars, value);
+        }
+        private SmarterCar selectedCar;
+        public SmarterCar SelectedCar
+        {
+            get => selectedCar;
+            set => SetProperty(ref selectedCar, value);
+        }
+        public ICommand UpdateCarCommand { get; set; }
+        public INavigationService _navigationService;
+        public InfoViewModel(IStorageService storageService, INavigationService navigationService)
         {
             _storageService = storageService;
+            _navigationService = navigationService;
+            
+            Messenger.Register<InfoViewModel, RefreshCarMessage>(this, (r,m)=> r.Receive(m));
+
             LoadCars();
+            BindCommands();
         }
 
         public async void LoadCars()
@@ -28,6 +54,17 @@ namespace SmartCar.ViewModels
             }
 
             Console.WriteLine($"Total cars loaded: {Cars.Count}"); // Total count debug output
+        }
+
+        private void BindCommands()
+        {
+            UpdateCarCommand = new RelayCommand(GoToDetailsUpdate);
+        }
+
+        private async void GoToDetailsUpdate()
+        {
+            await _navigationService.NavigateToDetailsPageAsync();
+            WeakReferenceMessenger.Default.Send(new CarSelectedMessages(selectedCar));
         }
     }
 }

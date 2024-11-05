@@ -232,7 +232,7 @@ namespace SmartCar.Models
 
         public static async Task AddNewCar(SmarterCarDTO smartercar)
         {
-            await APIService<SmarterCarDTO>.PostAsync("Car/", smartercar);
+            await APIService<SmarterCarDTO>.PostAsync("car/", smartercar);
         }
         public static async Task InsertDamageIntoApi(DamageEntry damageEntry)
         {
@@ -256,12 +256,12 @@ namespace SmartCar.Models
 
         public async static Task UpdateCarAsync(SmarterCar car)
         {
-            await APIService<SmarterCar>.PutAsync($"Car/{car.Id}",car);
+            await APIService<SmarterCar>.PutAsync($"car/{car.Id}",car);
         }
 
         public async static Task DeleteCarAsync(int id)
         {
-            await APIService<SmarterCar>.DeleteAsync($"Car/{id}");
+            await APIService<SmarterCar>.DeleteAsync($"car/{id}");
         }
 
     }
