@@ -12,7 +12,7 @@ namespace SmartCar.ViewModels
 {
     public class InfoViewModel : ObservableRecipient, IInfoViewModel, IRecipient<RefreshCarMessage>
     {
-        private readonly IStorageService _storageService;
+        //private readonly IStorageService _storageService;
         public void Receive(RefreshCarMessage message)
         {
             LoadCars();
@@ -35,7 +35,7 @@ namespace SmartCar.ViewModels
         public INavigationService _navigationService;
         public InfoViewModel(IStorageService storageService, INavigationService navigationService)
         {
-            _storageService = storageService;
+            //_storageService = storageService;
             _navigationService = navigationService;
             
             Messenger.Register<InfoViewModel, RefreshCarMessage>(this, (r,m)=> r.Receive(m));
@@ -44,16 +44,17 @@ namespace SmartCar.ViewModels
             BindCommands();
         }
 
-        public async void LoadCars()
+        private async void LoadCars()
         {
-            var cars = await _storageService.GetAllCarsAsync();
-            foreach (var car in cars)
-            {
-                Cars.Add(car);
-                Console.WriteLine($"Car loaded: {car.Name}"); // Debug output
-            }
+            //var cars = await _storageService.GetAllCarsAsync();
+            //foreach (var car in cars)
+            //{
+            //    Cars.Add(car);
+            //    Console.WriteLine($"Car loaded: {car.Name}"); // Debug output
+            //}
 
-            Console.WriteLine($"Total cars loaded: {Cars.Count}"); // Total count debug output
+            //Console.WriteLine($"Total cars loaded: {Cars.Count}"); // Total count debug output
+            Cars = new ObservableCollection<SmarterCar>(await SmartCarService.GetCarsAsync());
         }
 
         private void BindCommands()

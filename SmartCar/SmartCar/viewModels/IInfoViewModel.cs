@@ -9,7 +9,6 @@ namespace SmartCar.ViewModels
         ObservableCollection<SmarterCar> Cars { get; }
 
         ICommand UpdateCarCommand { get; set; }
-        void LoadCars();
         SmarterCar SelectedCar { get; set; }
 
 

@@ -94,7 +94,7 @@ namespace SmartCar.ViewModels
             SaveAllInfoCommand = new AsyncRelayCommand(SaveAllInfoAndNavigate);
         }
 
-        private async void AddDamageEntry()
+        private void AddDamageEntry()
         {
 
             DamageEntries.Add(new DamageEntry());

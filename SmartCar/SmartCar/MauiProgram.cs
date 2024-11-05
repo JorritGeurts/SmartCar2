@@ -31,6 +31,9 @@ namespace SmartCar
             builder.Services.AddSingleton<IStorageService, StorageService>();
             builder.Services.AddTransient<INavigationService, NavigationService>();
 
+            builder.Services.AddTransient<DetailsPage>();
+            builder.Services.AddTransient<IDetailViewModel, DetailViewModel>();
+
 
             return builder.Build();
         }
