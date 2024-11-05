@@ -254,5 +254,15 @@ namespace SmartCar.Models
             }
         }
 
+        public async static Task UpdateCarAsync(SmarterCar car)
+        {
+            await APIService<SmarterCar>.PutAsync($"Car/{car.Id}",car);
+        }
+
+        public async static Task DeleteCarAsync(int id)
+        {
+            await APIService<SmarterCar>.DeleteAsync($"Car/{id}");
+        }
+
     }
 }

@@ -35,5 +35,39 @@ namespace SmartCar.Services
             }
         }
 
+        public static async Task PutAsync(string endPoint, T data)
+        {
+            try
+            {
+                string url = BASE_URL + endPoint;
+                var response = await client.PutAsJsonAsync(url, data);
+                if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                {
+                    throw new Exception("Request failed with status code " + response.StatusCode);
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public static async Task DeleteAsync(string endPoint)
+        {
+            try
+            {
+                string url = BASE_URL + endPoint;
+                var response = await client.DeleteAsync(url);
+                if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                {
+                    throw new Exception("Request failed with status code " + response.StatusCode);
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
     }
 }

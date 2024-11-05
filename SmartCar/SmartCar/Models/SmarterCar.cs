@@ -6,7 +6,12 @@ namespace SmartCar.Models
 {
     public class SmarterCar : ObservableObject
     {
-        
+        private int id;
+        public int Id
+        {
+            get => id;
+            set => SetProperty(ref id, value);
+        }
 
         private string tag = string.Empty;
         public string Tag
