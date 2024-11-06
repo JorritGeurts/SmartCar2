@@ -16,8 +16,8 @@ namespace SmartCar.ViewModels
             SaveText = "Update";
         }
 
-        private SmarterCar car = new SmarterCar();
-        public SmarterCar Car
+        private SmarterCarDTO car = new SmarterCarDTO();
+        public SmarterCarDTO Car
         {
             get => car;
             set
@@ -25,6 +25,7 @@ namespace SmartCar.ViewModels
                 SetProperty(ref car, value);
             }
         }
+
 
         private string saveText = string.Empty;
         public string SaveText

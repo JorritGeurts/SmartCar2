@@ -18,6 +18,6 @@ namespace SmartCar.ViewModels
         string SaveText { get; set; }
         bool CanDelete { get; }
 
-        SmarterCar Car { get; set; }
+        SmarterCarDTO Car { get; set; }
     }
 }

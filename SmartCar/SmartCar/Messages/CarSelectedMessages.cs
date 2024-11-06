@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SmartCar.Messages
 {
-    public class CarSelectedMessages(SmarterCar car): ValueChangedMessage<SmarterCar>(car)
+    public class CarSelectedMessages(SmarterCarDTO car): ValueChangedMessage<SmarterCarDTO>(car)
     {
     }
 }

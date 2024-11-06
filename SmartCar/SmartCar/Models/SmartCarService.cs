@@ -229,6 +229,7 @@ namespace SmartCar.Models
         {
             return new SmarterCarDTO
             {
+                Id = entry.Id,
                 Tag = entry.Tag,
                 OldPrice = entry.OldPrice,
                 NewPrice = entry.NewPrice,
@@ -272,9 +273,9 @@ namespace SmartCar.Models
             }
         }
 
-        public async static Task UpdateCarAsync(SmarterCar car)
+        public async static Task UpdateCarAsync(SmarterCarDTO car)
         {
-            await APIService<SmarterCar>.PutAsync($"car/{car.Id}",car);
+            await APIService<SmarterCarDTO>.PutAsync($"car/{car.Id}",car);
         }
 
         public async static Task DeleteCarAsync(int id)

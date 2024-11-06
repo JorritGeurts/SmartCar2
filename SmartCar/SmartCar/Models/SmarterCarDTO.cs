@@ -9,6 +9,12 @@ namespace SmartCar.Models
 {
     public class SmarterCarDTO : ObservableObject
     {
+        private int id;
+        public int Id
+        {
+            get => id;
+            set => SetProperty(ref id, value);
+        }
         private string tag;
         public string Tag
         {
