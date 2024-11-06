@@ -93,15 +93,14 @@ namespace SmartCarAPI.Controllers
         public async Task<IActionResult> DeleteCar(int id)
         {
             var car = await _context.Car.FindAsync(id);
-            if(car == null)
+            if (car == null)
             {
-                return NotFound();
+                return NotFound(new { message = "Car not found." });
             }
 
             _context.Car.Remove(car);
             await _context.SaveChangesAsync();
             return NoContent();
-
         }
 
         private bool CarExists(int id)
