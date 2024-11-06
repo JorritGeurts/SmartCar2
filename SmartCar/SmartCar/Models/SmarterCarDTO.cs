@@ -30,6 +30,20 @@ namespace SmartCar.Models
             set => SetProperty(ref newPrice, value);
         }
 
+        private int kmAmount;
+        public int KmAmount
+        {
+            get => kmAmount;
+            set => SetProperty(ref kmAmount, value);
+        }
+
+        private int yearBought;
+        public int YearBought
+        {
+            get => yearBought;
+            set => SetProperty(ref yearBought, value);
+        }
+
         private string photo;
         public string Photo
         {

@@ -62,8 +62,8 @@ namespace SmartCar.Models
             set => SetProperty(ref isDamaged, value);
         }
 
-        private string kmAmount;
-        public string KmAmount
+        private int kmAmount;
+        public int KmAmount
         {
             get => kmAmount;
             set
@@ -75,8 +75,8 @@ namespace SmartCar.Models
             }
         }
 
-        private string yearBought;
-        public string YearBought
+        private int yearBought;
+        public int YearBought
         {
             get => yearBought;
             set
@@ -127,7 +127,7 @@ namespace SmartCar.Models
 
         private void Validate()
         {
-            CanSave = !string.IsNullOrWhiteSpace(KmAmount) && !string.IsNullOrWhiteSpace(YearBought);
+            CanSave = KmAmount > 0 && YearBought > 0;
         }
     }
 }

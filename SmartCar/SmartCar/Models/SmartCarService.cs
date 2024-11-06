@@ -232,6 +232,8 @@ namespace SmartCar.Models
                 Tag = entry.Tag,
                 OldPrice = entry.OldPrice,
                 NewPrice = entry.NewPrice,
+                KmAmount = entry.KmAmount,
+                YearBought = entry.YearBought,
                 Photo = "testtest"
             };
         }
@@ -241,6 +243,12 @@ namespace SmartCar.Models
         public async static Task<List<DamageTypes>> GetAllDamageTypes()
         {
             return await APIService<List<DamageTypes>>.GetAsync("Damages/");
+        }
+
+        //Get all severities from the API
+        public async static Task<List<Severities>> GetAllSeverities()
+        {
+            return await APIService<List<Severities>>.GetAsync("Severity/");
         }
 
 
@@ -266,7 +274,7 @@ namespace SmartCar.Models
 
         public async static Task UpdateCarAsync(SmarterCar car)
         {
-            await APIService<SmarterCar>.PutAsync($"car/{Car.Id}",car);
+            await APIService<SmarterCar>.PutAsync($"car/{car.Id}",car);
         }
 
         public async static Task DeleteCarAsync(int id)

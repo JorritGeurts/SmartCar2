@@ -74,7 +74,18 @@ namespace SmartCar.ViewModels
             set
             {
                 SetProperty(ref selectedDamageType, value);
-                // Additional logic when a DamageType is selected, if needed
+            }
+        }
+
+        public ObservableCollection<Severities> Severities { get; set; } = new ObservableCollection<Severities>();
+
+        private Severities selectedSeverity;
+        public Severities SelectedSeverity
+        {
+            get => selectedSeverity;
+            set
+            {
+                SetProperty(ref selectedSeverity, value);
             }
         }
 
@@ -94,6 +105,7 @@ namespace SmartCar.ViewModels
         {
             BindCommands();
             LoadDamageTypes();
+            LoadSeverityTyeps();
             _storageService = storageService;
             _navigationService = navigationService;
             AddDamageEntryCommand = new RelayCommand(AddDamageEntry);
@@ -109,7 +121,7 @@ namespace SmartCar.ViewModels
             SaveAllInfoCommand = new AsyncRelayCommand(SaveAllInfoAndNavigate);
         }
 
-
+        //Load all Damages for dropdown
         private async void LoadDamageTypes()
         {
             try
@@ -120,6 +132,25 @@ namespace SmartCar.ViewModels
                 foreach (var type in damageTypes)
                 {
                     DamageTypes.Add(type);  // Add the fetched data to the ObservableCollection
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading damage types: {ex.Message}");
+            }
+        }
+
+        //Load all severities for dropdown
+        private async void LoadSeverityTyeps()
+        {
+            try
+            {
+                var damageTypes = await SmartCarService.GetAllSeverities(); // API call to fetch data
+                Severities.Clear();
+
+                foreach (var type in damageTypes)
+                {
+                    Severities.Add(type);  // Add the fetched data to the ObservableCollection
                 }
             }
             catch (Exception ex)
@@ -230,7 +261,6 @@ namespace SmartCar.ViewModels
 
             try
             {
-                
                 await _navigationService.NavigateToInfoPageAsync(ClassifiedCar);
             }
             catch (Exception ex)
