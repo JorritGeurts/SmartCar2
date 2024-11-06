@@ -45,7 +45,7 @@ namespace SmartCarAPI.Controllers
                 await _context.SaveChangesAsync(); // Save changes to the database
 
                 // Return the created car with a 201 status code
-                return CreatedAtAction(nameof(GetCars), new { id = car.Id }, car);
+                return Ok(new { CarId = car.Id });
             }
             catch (Exception ex)
             {

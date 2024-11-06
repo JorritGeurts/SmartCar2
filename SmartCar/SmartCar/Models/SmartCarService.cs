@@ -224,6 +224,7 @@ namespace SmartCar.Models
         public static async Task AddNewCar(SmarterCarDTO smartercar)
         {
             await APIService<SmarterCarDTO>.PostAsync("Car/", smartercar);
+
         }
         public static SmarterCarDTO MapToDto(SmarterCar entry)
         {
@@ -252,25 +253,9 @@ namespace SmartCar.Models
             return await APIService<List<Severities>>.GetAsync("Severity/");
         }
 
-
-        public static async Task InsertDamageIntoApi(DamageEntry damageEntry)
+        public async static Task AddCarSeverity(CarSeverityDTO car)
         {
-            using (var client = new HttpClient())
-            {
-                var json = JsonConvert.SerializeObject(damageEntry);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-                Console.WriteLine("Request Content: " + json); // Log the JSON to see if it matches the API's requirements
-
-                var response = await client.PostAsync("http://localhost:5285/api/Damages/", content);
-
-                if (response.StatusCode != System.Net.HttpStatusCode.OK)
-                {
-                    string responseContent = await response.Content.ReadAsStringAsync();
-                    throw new Exception($"Request failed with status code {response.StatusCode}: {responseContent}");
-                }
-
-            }
+            await APIService<CarSeverityDTO>.PostAsync("CarSeverity/", car);
         }
 
         public async static Task UpdateCarAsync(SmarterCarDTO car)
