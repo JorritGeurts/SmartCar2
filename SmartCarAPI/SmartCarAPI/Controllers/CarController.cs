@@ -56,5 +56,58 @@ namespace SmartCarAPI.Controllers
 
         }
 
+        //Edit car
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutCar(int id, Car car)
+        {
+            if (id != car.Id)
+            {
+                return BadRequest("Car ID mismatch.");
+            }
+
+            _context.Entry(car).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!CarExists(id))
+                {
+                    return NotFound("Car not found.");
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+
+
+        //Delete car
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteCar(int id)
+        {
+            var car = await _context.Car.FindAsync(id);
+            if(car == null)
+            {
+                return NotFound();
+            }
+
+            _context.Car.Remove(car);
+            await _context.SaveChangesAsync();
+            return NoContent();
+
+        }
+
+        private bool CarExists(int id)
+        {
+            return _context.Car.Any(e => e.Id == id);
+        }
+
     }
 }
