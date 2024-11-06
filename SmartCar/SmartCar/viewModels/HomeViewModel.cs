@@ -250,15 +250,31 @@ namespace SmartCar.ViewModels
 
             var dto = SmartCarService.MapToDto(classifiedCar);
 
-            await SmartCarService.AddNewCar(dto);
+            var carId = await APIService<SmarterCarDTO>.PostAsyncAndReturnId("Car/", dto);
 
 
-            /*foreach (var damageEntry in DamageEntries)
+            foreach (var damageEntry in DamageEntries)
             {
-                damageEntry.Tag = classifiedCar.Tag;
 
-                await SmartCarService.InsertDamageIntoApi(damageEntry);
-            }*/
+                if (damageEntry.SelectedDamageType != null && damageEntry.SelectedSeverity != null)
+                {
+                    // Create CarSeverityDTO using the CarId, SeverityId, and DamageId from the entry
+                    var carSeverityDto = new CarSeverityDTO
+                    {
+                        CarId = carId,
+                        SeverityId = damageEntry.SelectedSeverity.Id,
+                        DamageId = damageEntry.SelectedDamageType.Id,
+                    };
+
+                    // Call the API to save this severity
+                    await SmartCarService.AddCarSeverity(carSeverityDto);
+                }
+                else
+                {
+                    Console.WriteLine("Skipping incomplete entry: both DamageType and Severity are required.");
+                }
+
+            }
 
             try
             {

@@ -5,6 +5,7 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using SmartCar.Models;
 
 namespace SmartCar.Services
 {
@@ -41,6 +42,47 @@ namespace SmartCar.Services
                 throw;
             }
         }
+
+        public static async Task<int> PostAsyncAndReturnId(string endPoint, T data)
+        {
+            try
+            {
+                string url = BASE_URL + endPoint;
+                var response = await client.PostAsJsonAsync(url, data);  // Send POST request
+
+                // Check if the endpoint is for "Car"
+                if (endPoint == "Car/")
+                {
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        Console.WriteLine("Resule =" + response);
+
+                        var result = await response.Content.ReadFromJsonAsync<CarSeverityDTO>();  // Deserialize the response
+
+                        var json = JsonConvert.DeserializeObject(result.CarId.ToString());
+                        Console.WriteLine(json.ToString());
+                        int carId = result.CarId; // Extract CarId from response
+
+                        if (carId > 0)
+                        {
+                            return carId; // Return the CarId
+                        }
+                    }
+
+                    string responseContent = await response.Content.ReadAsStringAsync();
+                    throw new Exception($"Request failed with status code {response.StatusCode}: {responseContent}");
+                }
+
+                // Return a default value (0) if it's not a "Car" endpoint
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in PostAsync: {ex.Message}");
+                throw;
+            }
+        }
+
 
         public static async Task PostAsync(string endPoint, T data)
         {

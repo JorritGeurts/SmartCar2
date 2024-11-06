@@ -38,19 +38,21 @@ namespace SmartCarAPI.Controllers
             }
 
             // Create a new Damage entity
-            var vehicle = new CarSeverity
+            try
             {
-                CarId = 1,
-                SeverityId = 1,
-                DamageId = 1
-            };
+                // Add the new car to the context
+                _context.CarSeverity.Add(carserv); // Make sure you're adding the car passed in the request
+                await _context.SaveChangesAsync(); // Save changes to the database
 
-            // Add to the context and save changes
-            _context.CarSeverity.Add(vehicle);
-            await _context.SaveChangesAsync();
-
-            // Return the created damage record with a 201 status code
-            return await GetCarServerity();
+                // Return the created car with a 201 status code
+                return CreatedAtAction(nameof(GetCarServerity), new { id = carserv.Id }, carserv);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (optional)
+                Console.WriteLine($"An error occurred while saving the car: {ex.Message}");
+                return StatusCode(500, $"Internal server error {ex.Message}"); // Return a 500 error on failure
+            }
         }
 
     }
