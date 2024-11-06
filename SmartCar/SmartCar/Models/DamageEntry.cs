@@ -51,5 +51,13 @@ namespace SmartCar.Models
         }
 
         public bool IsDamageTypeSelected => !string.IsNullOrEmpty(DamageType);
+
+        private DamageTypes selectedDamageType;
+        public DamageTypes SelectedDamageType
+        {
+            get => selectedDamageType;
+            set => SetProperty(ref selectedDamageType, value);
+        }
+
     }
 }

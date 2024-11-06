@@ -95,12 +95,6 @@ namespace SmartCar.Models
             set => SetProperty(ref damageEntries, value);
         }
 
-        private ObservableCollection<string> damageTypes;
-        public ObservableCollection<string> DamageTypes
-        {
-            get => damageTypes;
-            set => SetProperty(ref damageTypes, value);
-        }
 
         private ObservableCollection<string> damageSeverities;
         public ObservableCollection<string> DamageSeverities
@@ -118,10 +112,11 @@ namespace SmartCar.Models
 
         public SmarterCar()
         {
-            DamageTypes = new ObservableCollection<string> { "Scratch", "Dent", "Crack" }; // Example types
             DamageSeverities = new ObservableCollection<string> { "Minor", "Moderate", "Severe", "Critical" }; // Example severities
             DamageEntries.Add(new DamageEntry()); // Initialize with one entry
         }
+
+
 
         private bool canSave;
         public bool CanSave

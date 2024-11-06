@@ -218,6 +218,13 @@ namespace SmartCar.Models
             }.FirstOrDefault(smartcar => smartcar.Tag == tag);
         }
 
+        
+
+        //Add new car
+        public static async Task AddNewCar(SmarterCarDTO smartercar)
+        {
+            await APIService<SmarterCarDTO>.PostAsync("Car/", smartercar);
+        }
         public static SmarterCarDTO MapToDto(SmarterCar entry)
         {
             return new SmarterCarDTO
@@ -230,10 +237,13 @@ namespace SmartCar.Models
         }
 
 
-        public static async Task AddNewCar(SmarterCarDTO smartercar)
+        //Get the Damagetypes from the API
+        public async static Task<List<DamageTypes>> GetAllDamageTypes()
         {
-            await APIService<SmarterCarDTO>.PostAsync("Car/", smartercar);
+            return await APIService<List<DamageTypes>>.GetAsync("Damages/");
         }
+
+
         public static async Task InsertDamageIntoApi(DamageEntry damageEntry)
         {
             using (var client = new HttpClient())
