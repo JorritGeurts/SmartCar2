@@ -60,18 +60,31 @@
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate x:DataType="models:DamageEntry">
                                         <HorizontalStackLayout Spacing="10">
+                                            <!-- Damage Type Picker -->
                                             <StackLayout>
                                                 <Label Text="Damage Type" />
-                                                <Picker ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ClassifiedCar.DamageTypes}" SelectedItem="{Binding DamageType}" />
+                                                <Picker 
+                                                    ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DamageTypes}" 
+                                                    SelectedItem="{Binding SelectedDamageType}">
+                                                    <Picker.ItemDisplayBinding>
+                                                        <Binding Path="Name" />
+                                                        <!-- Bind to the Name property -->
+                                                    </Picker.ItemDisplayBinding>
+                                                </Picker>
                                             </StackLayout>
+
+                                            <!-- Severity Picker -->
                                             <StackLayout>
                                                 <Label Text="Damage Severity" />
-                                                <Picker ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ClassifiedCar.Severity}" SelectedItem="{Binding Severity}" IsEnabled="{Binding IsDamageTypeSelected}" />
+                                                <Picker ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ClassifiedCar.Severity}" 
+                            SelectedItem="{Binding Severity}" 
+                            IsEnabled="{Binding IsDamageTypeSelected}" />
                                             </StackLayout>
                                         </HorizontalStackLayout>
                                     </DataTemplate>
                                 </CollectionView.ItemTemplate>
                             </CollectionView>
+
                             <Button Text="Add Damage" Command="{Binding AddDamageEntryCommand}" HorizontalOptions="Center" />
                         </StackLayout>
                     </StackLayout>

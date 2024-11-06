@@ -59,6 +59,20 @@ namespace SmartCar.ViewModels
             set => SetProperty(ref classifiedCar, value);
         }
 
+        public ObservableCollection<DamageTypes> DamageTypes { get; set; } = new ObservableCollection<DamageTypes>();
+
+        private DamageTypes selectedDamageType;
+        public DamageTypes SelectedDamageType
+        {
+            get => selectedDamageType;
+            set
+            {
+                SetProperty(ref selectedDamageType, value);
+                // Additional logic when a DamageType is selected, if needed
+            }
+        }
+
+
         public ICommand PickPhotoCommand { get; set; }
         public ICommand TakePhotoCommand { get; set; }
         public ICommand AddPhotoCommand { get; set; }
@@ -73,6 +87,7 @@ namespace SmartCar.ViewModels
         public HomeViewModel(IStorageService storageService, INavigationService navigationService)
         {
             BindCommands();
+            LoadDamageTypes();
             _storageService = storageService;
             _navigationService = navigationService;
             AddDamageEntryCommand = new RelayCommand(AddDamageEntry);
@@ -87,6 +102,25 @@ namespace SmartCar.ViewModels
             RemovePhotoCommand = new RelayCommand<ImageSource>(RemovePhotoCommandExecute);
             SaveAllInfoCommand = new AsyncRelayCommand(SaveAllInfoAndNavigate);
         }
+
+        private async void LoadDamageTypes()
+        {
+            try
+            {
+                var damageTypes = await SmartCarService.GetAllDamageTypes(); // API call to fetch data
+                DamageTypes.Clear();
+
+                foreach (var type in damageTypes)
+                {
+                    DamageTypes.Add(type);  // Add the fetched data to the ObservableCollection
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading damage types: {ex.Message}");
+            }
+        }
+
 
         private async void AddDamageEntry()
         {
