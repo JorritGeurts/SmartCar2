@@ -50,14 +50,28 @@ namespace SmartCar.Models
             set => SetProperty(ref severity, value);
         }
 
-        public bool IsDamageTypeSelected => !string.IsNullOrEmpty(DamageType);
+
+
 
         private DamageTypes selectedDamageType;
         public DamageTypes SelectedDamageType
         {
             get => selectedDamageType;
-            set => SetProperty(ref selectedDamageType, value);
+            set
+            {
+                SetProperty(ref selectedDamageType, value);
+                OnPropertyChanged(nameof(IsDamageTypeSelected));
+            }
         }
 
+
+        private Severities selectedSeverity;
+        public Severities SelectedSeverity
+        {
+            get => selectedSeverity;
+            set => SetProperty(ref selectedSeverity, value);
+        }
+
+        public bool IsDamageTypeSelected => SelectedDamageType != null;
     }
 }
