@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using SmartCar.Models;
 
-namespace SmartCar.viewModels
+namespace SmartCar.ViewModels
 {
     public interface IHomeViewModel
     {

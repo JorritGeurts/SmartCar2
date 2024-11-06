@@ -1,4 +1,4 @@
-using SmartCar.viewModels;
+using SmartCar.ViewModels;
 
 namespace SmartCar.Views;
 

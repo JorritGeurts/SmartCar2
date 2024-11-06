@@ -1,17 +1,23 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using SafariSnap.Services;
+using SmartCar.Messages;
 using SmartCar.Models;
 using SmartCar.Services;
-using SmartCar.viewModels;
+using SmartCar.ViewModels;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows.Input;
 
 namespace SmartCar.ViewModels
 {
-    public class HomeViewModel : ObservableObject, IHomeViewModel
+    public class HomeViewModel : ObservableObject, IHomeViewModel,IRecipient<CarSelectedMessages>
     {
+        public void Receive(CarSelectedMessages message)
+        {
+            ClassifiedCar = message.Value;
+        }
         private bool isRunning = false;
 
         public bool IsRunning
@@ -88,7 +94,7 @@ namespace SmartCar.ViewModels
             SaveAllInfoCommand = new AsyncRelayCommand(SaveAllInfoAndNavigate);
         }
 
-        private async void AddDamageEntry()
+        private void AddDamageEntry()
         {
 
             DamageEntries.Add(new DamageEntry());

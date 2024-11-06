@@ -1,7 +1,6 @@
 ﻿using SmartCar.Models;
 using SmartCar.Views;
-using System;
-using System.Threading.Tasks;
+
 
 namespace SmartCar.Services
 {
@@ -33,6 +32,23 @@ namespace SmartCar.Services
                 Console.WriteLine($"Fout bij opslaan en navigeren: {ex.Message}");
                 throw;
             }
+        }
+
+        public async Task NavigateBackAsync()
+        {
+            if(_navigation.NavigationStack.Count > 1)
+            {
+                await _navigation.PopAsync();
+            }
+            else
+            {
+                throw new InvalidOperationException("No pages to navigate back to!");
+            }
+        }
+
+        public async Task NavigateToDetailsPageAsync()
+        {
+            await _navigation.PushAsync(_serviceProvider.GetRequiredService<DetailsPage>());
         }
 
         

@@ -5,15 +5,13 @@
              xmlns:models="clr-namespace:SmartCar.Models"
              x:DataType="viewModels:InfoViewModel"
              Title="SmartCar">
-    <ContentPage.Content>
-        <ScrollView>
-            <VerticalStackLayout>
-                <CollectionView ItemsSource="{Binding Cars}">
+
+                <CollectionView ItemsSource="{Binding Cars}" SelectionMode="Single" SelectedItem="{Binding SelectedCar}" SelectionChangedCommand="{Binding UpdateCarCommand}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:SmarterCar">
                             <Frame BorderColor="LightGray" CornerRadius="10" Padding="10" Margin="10">
                                 <StackLayout>
-                                    <Label Text="{Binding Name}" FontSize="Large" FontAttributes="Bold" />
+                                    <Label Text="{Binding Tag}" FontSize="Large" FontAttributes="Bold" />
                                     <Label Text="Original Price:" FontSize="Small" />
                                     <Label Text="{Binding OldPrice}" FontSize="Small" />
                                     <Label Text="Discounted Price:" FontSize="Small" />
@@ -51,7 +49,5 @@
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
-            </VerticalStackLayout>
-        </ScrollView>
-    </ContentPage.Content>
+            
 </ContentPage>
