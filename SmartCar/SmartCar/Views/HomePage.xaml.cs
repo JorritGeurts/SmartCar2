@@ -10,4 +10,9 @@ public partial class HomePage : ContentPage
 
 		BindingContext = viewModel;
 	}
+
+    private void KmAmountEntry_Focused(object sender, FocusEventArgs e)
+    {
+
+    }
 }

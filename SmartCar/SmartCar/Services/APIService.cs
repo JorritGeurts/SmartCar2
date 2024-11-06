@@ -81,19 +81,26 @@ namespace SmartCar.Services
             }
         }
 
-        public static async Task DeleteAsync(string endPoint)
+        public static async Task<HttpResponseMessage> DeleteAsync(string endPoint)
         {
             try
             {
                 string url = BASE_URL + endPoint;
                 var response = await client.DeleteAsync(url);
-                if (response.StatusCode != System.Net.HttpStatusCode.OK)
+
+                // Check if the response is successful (NoContent or OK)
+                if (response.StatusCode != System.Net.HttpStatusCode.NoContent &&
+                    response.StatusCode != System.Net.HttpStatusCode.OK)
                 {
-                    throw new Exception("Request failed with status code " + response.StatusCode);
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    throw new Exception($"Request failed with status code {response.StatusCode}: {errorContent}");
                 }
+
+                return response;
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine($"An error occurred during DELETE request: {ex.Message}");
                 throw;
             }
         }

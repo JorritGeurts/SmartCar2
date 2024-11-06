@@ -51,8 +51,23 @@
                 <Frame BorderColor="LightGray" CornerRadius="10" Padding="10" Margin="10" IsVisible="{Binding IsCarClassified}">
                     <StackLayout IsVisible="{Binding HasPhotos}">
                         <Label Text="Car Details" FontSize="Medium" FontAttributes="Bold" />
-                        <Entry Placeholder="Kilometer Amount*" Text="{Binding ClassifiedCar.KmAmount}" Keyboard="Numeric" />
-                        <Entry Placeholder="Year Bought*" Text="{Binding ClassifiedCar.YearBought}" Keyboard="Numeric" />
+                        <StackLayout Padding="10">
+                            <!-- Kilometer Amount Label and Entry -->
+                            <Label Text="Kilometer Amount*" 
+                               FontSize="Small" 
+                               VerticalOptions="Center" />
+                            <Entry Placeholder="Kilometer Amount*" 
+                               Text="{Binding ClassifiedCar.KmAmount}" 
+                               Keyboard="Numeric" />    
+
+                            <!-- Year Bought Label and Entry -->
+                            <Label Text="Year Bought*" 
+                               FontSize="Small" 
+                               VerticalOptions="Center" />  
+                            <Entry Placeholder="Year Bought*" 
+                                Text="{Binding ClassifiedCar.YearBought}" 
+                                Keyboard="Numeric" />
+                        </StackLayout>
                         <Label Text="Damage" FontSize="Small" />
                         <CheckBox IsChecked="{Binding ClassifiedCar.IsDamaged}" />
                         <StackLayout IsVisible="{Binding ClassifiedCar.IsDamaged}">

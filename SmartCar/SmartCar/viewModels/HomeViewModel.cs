@@ -31,7 +31,10 @@ namespace SmartCar.ViewModels
         public bool IsCarClassified
         {
             get => isCarClassified;
-            set => SetProperty(ref isCarClassified, value);
+            set
+            {
+                SetProperty(ref isCarClassified, value);
+            }
         }
 
         private ObservableCollection<ImageSource> photos = new ObservableCollection<ImageSource>();
@@ -275,34 +278,16 @@ namespace SmartCar.ViewModels
         {
             double basePrice = ClassifiedCar.Price;
             double newPrice = basePrice;
-
             if (ClassifiedCar.IsDamaged)
             {
-                newPrice *= 0.9;
-                //foreach (var damage in DamageEntries)
-                //{
-                //    switch (damage.Severity)
-                //    {
-                //        case "Minor":
-                //            newPrice *= 0.95;
-                //            break;
-                //        case "Moderate":
-                //            newPrice *= 0.90;
-                //            break;
-                //        case "Severe":
-                //            newPrice *= 0.85;
-                //            break;
-                //        case "Critical":
-                //            newPrice *= 0.80;
-                //            break;
-                //    }
-                //}
+                newPrice *= 0.8;
             }
-
+            
             ClassifiedCar.OldPrice = basePrice;
             ClassifiedCar.NewPrice = newPrice;
             OnPropertyChanged(nameof(ClassifiedCar));
         }
+
 
         private async Task ClassifyPhotoAsync(FileResult photo)
         {
