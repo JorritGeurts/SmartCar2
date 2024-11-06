@@ -16,7 +16,8 @@ namespace SmartCar.ViewModels
     {
         public void Receive(CarSelectedMessages message)
         {
-            ClassifiedCar = message.Value;
+            var dto = SmartCarService.MapToDto(classifiedCar);
+            dto = message.Value;
         }
         private bool isRunning = false;
 

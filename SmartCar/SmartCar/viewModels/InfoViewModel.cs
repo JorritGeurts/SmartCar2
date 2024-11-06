@@ -65,7 +65,8 @@ namespace SmartCar.ViewModels
         private async void GoToDetailsUpdate()
         {
             await _navigationService.NavigateToDetailsPageAsync();
-            WeakReferenceMessenger.Default.Send(new CarSelectedMessages(selectedCar));
+            var dto = SmartCarService.MapToDto(selectedCar);
+            WeakReferenceMessenger.Default.Send(new CarSelectedMessages(dto));
         }
     }
 }
