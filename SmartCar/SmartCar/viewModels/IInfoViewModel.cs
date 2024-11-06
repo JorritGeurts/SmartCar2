@@ -1,17 +1,16 @@
 ﻿using SmartCar.Models;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Input;
 
-namespace SmartCar.viewModels
+namespace SmartCar.ViewModels
 {
     public interface IInfoViewModel
     {
         ObservableCollection<SmarterCar> Cars { get; }
-        void LoadCars();
+
+        ICommand UpdateCarCommand { get; set; }
+        SmarterCar SelectedCar { get; set; }
+
 
     }
 }

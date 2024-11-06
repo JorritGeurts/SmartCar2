@@ -10,5 +10,7 @@ namespace SmartCar.Services
     public interface INavigationService
     {
         Task NavigateToInfoPageAsync(SmarterCar car);
+        Task NavigateBackAsync();
+        Task NavigateToDetailsPageAsync();
     }
 }
