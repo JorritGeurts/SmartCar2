@@ -188,12 +188,12 @@ namespace SmartCar.Services
             }
         }
 
-        public static async Task<double> GetSeverityAmountAsync(int severityId)
+        public static async Task<Severities> GetSeverityByIdAsync(int severityId)
         {
             try 
             { 
                 string url = $"{BASE_URL}Severity/{severityId}"; 
-                var response = await client.GetFromJsonAsync<double>(url); 
+                var response = await client.GetFromJsonAsync<Severities>(url); 
                 return response; 
             } 
             catch (Exception ex) 

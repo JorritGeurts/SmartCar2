@@ -14,7 +14,7 @@
                                     <Label Text="{Binding Tag}" FontSize="Large" FontAttributes="Bold" />
                                     <Label Text="Original Price:" FontSize="Small" />
                                     <Label Text="{Binding OldPrice}" FontSize="Small" />
-                                    <Label Text="Discounted Price:" FontSize="Small" />
+                                    <Label Text="Selling Price:" FontSize="Small" />
                                     <Label Text="{Binding NewPrice}" FontSize="Small" />
                                     <Label Text="Kilometers:" FontSize="Small" />
                                     <Label Text="{Binding KmAmount}" FontSize="Small" />
@@ -23,29 +23,20 @@
 
                                     <!-- Add Damage Details -->
                                     <Label Text="Damage Information:" FontSize="Small" FontAttributes="Bold" />
-                                    <CollectionView ItemsSource="{Binding CarSeverities}" ItemsLayout="VerticalList">
-                                        <CollectionView.ItemTemplate>
-                                            <DataTemplate x:DataType="models:CarSeverityDTO">
-                                                <StackLayout Orientation="Horizontal" Spacing="5">
-                                                    <Label Text="Type:" FontSize="Small" FontAttributes="Bold"/>
-                                                    <Label Text="{Binding DamageTypes.Name}" FontSize="Small"/>
+                        <CollectionView ItemsSource="{Binding CarSeverities}" ItemsLayout="VerticalList">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="models:CarSeverityDTO">
+                                    <StackLayout Orientation="Horizontal" Spacing="5">
+                                        <Label Text="Type:" FontSize="Small" FontAttributes="Bold"/>
+                                        <Label Text="{Binding DamageTypes.Name}" FontSize="Small"/>
 
-                                                    <Label Text="Severity:" FontSize="Small" FontAttributes="Bold"/>
-                                                    <Label Text="{Binding Severities.Name}" FontSize="Small"/>
-                                                </StackLayout>
-                                            </DataTemplate>
-                                        </CollectionView.ItemTemplate>
-                                    </CollectionView>
-
-                                    <!-- Display Car Photos -->
-                                    <CollectionView ItemsSource="{Binding Photos}" ItemsLayout="HorizontalList">
-                                        <CollectionView.ItemTemplate>
-                                            <DataTemplate>
-                                                <Image Source="{Binding}" Aspect="AspectFill" HeightRequest="100" WidthRequest="100" Margin="5,0" />
-                                            </DataTemplate>
-                                        </CollectionView.ItemTemplate>
-                                    </CollectionView>
-                                </StackLayout>
+                                        <Label Text="Severity:" FontSize="Small" FontAttributes="Bold"/>
+                                        <Label Text="{Binding Severities.Name}" FontSize="Small"/>
+                                    </StackLayout>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </StackLayout>
                             </Frame>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>

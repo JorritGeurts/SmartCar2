@@ -101,15 +101,13 @@ namespace SmartCar.ViewModels
         public ICommand SaveAllInfoCommand { get; set; }
         public ICommand AddDamageEntryCommand { get; }
 
-        private IStorageService _storageService;
         private INavigationService _navigationService;
 
-        public HomeViewModel(IStorageService storageService, INavigationService navigationService)
-        {
+        public HomeViewModel( INavigationService navigationService)
+        { 
             BindCommands();
             LoadDamageTypes();
             LoadSeverityTyeps();
-            _storageService = storageService;
             _navigationService = navigationService;
             AddDamageEntryCommand = new RelayCommand(AddDamageEntry);
         }
@@ -298,34 +296,28 @@ namespace SmartCar.ViewModels
         {
             if (ClassifiedCar != null)
             {
-                double basePrice = ClassifiedCar.Price;
-                double newPrice = basePrice;
-
-                if (ClassifiedCar.IsDamaged)
+                double basePrice = ClassifiedCar.Price; double newPrice = basePrice; if (ClassifiedCar.IsDamaged)
                 {
-                    newPrice *= 0.9; 
-                    foreach(var entry in DamageEntries)
-                    {
-                        if(entry.SelectedSeverity != null)
-                        {
-                            var amount = await SmartCarService.GetSeverityAmountAsync(entry.SelectedSeverity.Id);
-                            newPrice *= amount;
-                        }
-                    }
-                    
-                }
-
-                ClassifiedCar.OldPrice = basePrice;
-                ClassifiedCar.NewPrice = newPrice;
-
-                // Notify that ClassifiedCar has been updated
+                    newPrice *= 0.9; // Apply a 10% discount for damaged cars
+                    foreach (var entry in DamageEntries) 
+                    { 
+                        if (entry.SelectedSeverity != null) 
+                        { 
+                            var severity = await SmartCarService.GetSeverityByIdAsync(entry.SelectedSeverity.Id); 
+                            double amount = severity.Amount; // Retrieve the amount from the fetched CarSeverity
+                            newPrice *= amount; 
+                        } 
+                    } 
+                } 
+                ClassifiedCar.OldPrice = basePrice; 
+                ClassifiedCar.NewPrice = newPrice; // Notify that ClassifiedCar has been updated
                 OnPropertyChanged(nameof(ClassifiedCar.OldPrice));
-                OnPropertyChanged(nameof(ClassifiedCar.NewPrice));
-            }
+                OnPropertyChanged(nameof(ClassifiedCar.NewPrice)); 
+            } 
         }
 
 
-        private async Task ClassifyPhotoAsync(FileResult photo)
+                    private async Task ClassifyPhotoAsync(FileResult photo)
         {
             if (photo is { })
             {

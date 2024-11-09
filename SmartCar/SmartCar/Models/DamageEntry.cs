@@ -69,7 +69,12 @@ namespace SmartCar.Models
         public Severities SelectedSeverity
         {
             get => selectedSeverity;
-            set => SetProperty(ref selectedSeverity, value);
+            set { 
+                SetProperty(ref selectedSeverity, value);
+                OnPropertyChanged(nameof(SelectedSeverity));
+                // Log the value to the console for debugging
+                Console.WriteLine($"SelectedSeverity set to: {selectedSeverity?.Name ?? "null"}");
+            }
         }
 
         public bool IsDamageTypeSelected => SelectedDamageType != null;

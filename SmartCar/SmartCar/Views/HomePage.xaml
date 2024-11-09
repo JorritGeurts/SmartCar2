@@ -78,25 +78,20 @@
                                             <!-- Damage Type Picker -->
                                             <StackLayout>
                                                 <Label Text="Damage Type" />
-                                                <Picker 
-                                                    ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DamageTypes}" 
-                                                    SelectedItem="{Binding SelectedDamageType}">
+                                                <Picker ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DamageTypes}" SelectedItem="{Binding SelectedDamageType, Mode=TwoWay}">
                                                     <Picker.ItemDisplayBinding>
                                                         <Binding Path="Name" />
-                                                        <!-- Bind to the Name property -->
                                                     </Picker.ItemDisplayBinding>
                                                 </Picker>
                                             </StackLayout>
-
                                             <!-- Severity Picker -->
                                             <StackLayout>
                                                 <Label Text="Damage Severity" />
-                                                <Picker ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.Severities}" SelectedItem="{Binding SelectedSeverity}" IsEnabled="{Binding IsDamageTypeSelected}">
+                                                <Picker ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.Severities}" SelectedItem="{Binding SelectedSeverity, Mode=TwoWay}" IsEnabled="{Binding IsDamageTypeSelected}">
                                                     <Picker.ItemDisplayBinding>
                                                         <Binding Path="Name" />
                                                     </Picker.ItemDisplayBinding>
                                                 </Picker>
-
                                             </StackLayout>
                                         </HorizontalStackLayout>
                                     </DataTemplate>
