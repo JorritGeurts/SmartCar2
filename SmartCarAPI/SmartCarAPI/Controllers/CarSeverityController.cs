@@ -29,6 +29,25 @@ namespace SmartCarAPI.Controllers
             return Ok(carServ);
         }
 
+        [HttpGet("ByCarId/{carId}")]
+        public async Task<IActionResult> GetCarSeveritiesByCarId(int carId)
+        {
+            // Fetch records that match the specified CarId
+            var carSeverities = await _context.CarSeverity
+                .Where(cs => cs.CarId == carId)
+                .Include(cs => cs.Damage)
+                .Include(cs => cs.Severity)
+                .ToListAsync();
+
+            // Check if any records were found
+            if (carSeverities == null || !carSeverities.Any())
+            {
+                return NotFound($"No car severities found for CarId: {carId}");
+            }
+
+            return Ok(carSeverities);
+        }
+
         [HttpPost]
         public async Task<IActionResult> PostCarSeverity(CarSeverity carserv)
         {

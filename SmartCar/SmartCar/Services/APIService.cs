@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
@@ -83,6 +84,40 @@ namespace SmartCar.Services
             }
         }
 
+        public static async Task<List<CarSeverityDTO>> GetCarSeveritiesByCarIdAsync(int carId)
+        {
+            try
+            {
+                string url = $"{BASE_URL}CarSeverity/ByCarId/{carId}";
+                var response = await client.GetAsync(url);
+
+                if (response.StatusCode == HttpStatusCode.NotFound)
+                {
+                    // If no car severities are found (404), just return an empty list
+                    Console.WriteLine("No car severities found.");
+                    return new List<CarSeverityDTO>(); // or return null, based on your needs
+                }
+                else
+                {
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var jsonData = await response.Content.ReadAsStringAsync();
+                        return JsonConvert.DeserializeObject<List<CarSeverityDTO>>(jsonData);
+                    }
+                    else
+                    {
+                        throw new Exception($"Error fetching car severities: {response.ReasonPhrase}");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in GetCarSeveritiesByCarIdAsync: {ex.Message}");
+                throw;
+            }
+        }
+
 
         public static async Task PostAsync(string endPoint, T data)
         {
@@ -90,6 +125,12 @@ namespace SmartCar.Services
             {
                 string url = BASE_URL + endPoint;
                 var response = await client.PostAsJsonAsync(url, data);
+
+                var json = JsonConvert.SerializeObject(response);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                Console.WriteLine("Request Content: " + json);
+
 
                 if (response.StatusCode != System.Net.HttpStatusCode.Created)
                 {

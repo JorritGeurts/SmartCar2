@@ -8,12 +8,15 @@ namespace SmartCarAPI.Models
 
         // Foreign key for Car
         public int CarId { get; set; } // Just the ID
+        public Car ?Car { get; set; }
 
         // Foreign key for Severity
         public int SeverityId { get; set; } // Just the ID
+        public Severity ?Severity { get; set; }
 
         // Foreign key for Damage
         public int DamageId { get; set; } // Just the ID
+        public Damage ?Damage { get; set; }
     }
 
 }
