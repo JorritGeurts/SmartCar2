@@ -5,37 +5,66 @@
              xmlns:viewModels="clr-namespace:SmartCar.ViewModels"
              x:DataType="viewModels:IDetailViewModel"
              Title="DetailsPage">
+
     <ScrollView>
-        <StackLayout Padding="30">
+        <StackLayout Padding="20" Spacing="15">
 
-            <Label Text="Name"
-           FontSize="Medium"
-           Margin="0,10,0,0"/>
-            <Entry Text="{Binding Car.Tag}"
-           Placeholder="Enter your car name"/>
+            <!-- Header with Title -->
+            <Label Text="Car Details" 
+                   FontSize="Title" 
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" 
+                   Margin="0,20" />
 
-            <Label Text="KM Amount"
-           FontSize="Medium"
-           Margin="0,10,0,0"/>
-            <Entry Text="{Binding Car.KmAmount}" Keyboard="Numeric"
-           Placeholder="Enter the amount of kilometers"/>
+            <!-- Name Input Section -->
+            <Frame BorderColor="LightGray" CornerRadius="10" Padding="15">
+                <StackLayout>
+                    <Label Text="Car Name" FontSize="Medium" FontAttributes="Bold" TextColor="White"/>
+                    <Entry Text="{Binding Car.Tag}" Placeholder="Enter your car name" FontSize="Small" TextColor="LightGray" />
+                </StackLayout>
+            </Frame>
 
-            <Label Text="Year"
-            FontSize="Medium"
-            Margin="0,10,0,0"/>
-            <Entry Text="{Binding Car.YearBought}" Keyboard="Numeric"
-                   Placeholder="From which year is your car"/>
+            <!-- Kilometer Amount Section -->
+            <Frame BorderColor="LightGray" CornerRadius="10" Padding="15">
+                <StackLayout>
+                    <Label Text="Kilometer Amount" FontSize="Medium" FontAttributes="Bold" TextColor="White"/>
+                    <Entry Text="{Binding Car.KmAmount}" Keyboard="Numeric" Placeholder="Enter the amount of kilometers" FontSize="Small" TextColor="LightGray"/>
+                </StackLayout>
+            </Frame>
 
-            <Button Text="{Binding SaveText}"
-			Command="{Binding SaveCommand}"
-            Margin="0,20,0,0"/>
-            <Button Text="Delete"
-			Command="{Binding DeleteCommand}"
-			IsVisible="{Binding CanDelete}"
-			Margin="0,5,0,0"/>
-            <Button Text="Cancel"
-			Command="{Binding CancelCommand}"
-			Margin="0,5,0,0"/>
+            <!-- Year Bought Section -->
+            <Frame BorderColor="LightGray" CornerRadius="10" Padding="15">
+                <StackLayout>
+                    <Label Text="Year Bought" FontSize="Medium" FontAttributes="Bold" TextColor="White"/>
+                    <Entry Text="{Binding Car.YearBought}" Keyboard="Numeric" Placeholder="Enter the year your car was bought" FontSize="Small" TextColor="LightGray"/>
+                </StackLayout>
+            </Frame>
+
+            <!-- Action Buttons -->
+            <Button Text="{Binding SaveText}" 
+                    Command="{Binding SaveCommand}" 
+                    BackgroundColor="Green" 
+                    TextColor="White" 
+                    FontSize="Medium" 
+                    HorizontalOptions="Center" 
+                    Margin="0,20,0,0"/>
+            <Button Text="Delete" 
+                    Command="{Binding DeleteCommand}" 
+                    IsVisible="{Binding CanDelete}" 
+                    BackgroundColor="Crimson" 
+                    TextColor="White" 
+                    FontSize="Medium" 
+                    HorizontalOptions="Center" 
+                    Margin="0,5,0,0"/>
+            <Button Text="Cancel" 
+                    Command="{Binding CancelCommand}" 
+                    BackgroundColor="Gray" 
+                    TextColor="White" 
+                    FontSize="Medium" 
+                    HorizontalOptions="Center" 
+                    Margin="0,5,0,0"/>
+
         </StackLayout>
     </ScrollView>
+
 </ContentPage>

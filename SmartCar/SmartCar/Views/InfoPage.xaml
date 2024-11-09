@@ -4,51 +4,62 @@
              xmlns:viewModels="clr-namespace:SmartCar.ViewModels"
              xmlns:models="clr-namespace:SmartCar.Models"
              x:DataType="viewModels:InfoViewModel"
-             Title="SmartCar">
+             Title="Saved Cars">
 
-                <CollectionView ItemsSource="{Binding Cars}" SelectionMode="Single" SelectedItem="{Binding SelectedCar}" SelectionChangedCommand="{Binding UpdateCarCommand}">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="models:SmarterCar">
-                            <Frame BorderColor="LightGray" CornerRadius="10" Padding="10" Margin="10">
-                                <StackLayout>
-                                    <Label Text="{Binding Tag}" FontSize="Large" FontAttributes="Bold" />
-                                    <Label Text="Original Price:" FontSize="Small" />
-                                    <Label Text="{Binding OldPrice}" FontSize="Small" />
-                                    <Label Text="Discounted Price:" FontSize="Small" />
-                                    <Label Text="{Binding NewPrice}" FontSize="Small" />
-                                    <Label Text="Kilometers:" FontSize="Small" />
-                                    <Label Text="{Binding KmAmount}" FontSize="Small" />
-                                    <Label Text="Year Purchased:" FontSize="Small" />
-                                    <Label Text="{Binding YearBought}" FontSize="Small" />
+    <!-- Main CollectionView -->
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="15">
 
-                                    <!-- Add Damage Details -->
-                                    <Label Text="Damage Information:" FontSize="Small" FontAttributes="Bold" />
-                                    <CollectionView ItemsSource="{Binding CarSeverities}" ItemsLayout="VerticalList">
-                                        <CollectionView.ItemTemplate>
-                                            <DataTemplate x:DataType="models:CarSeverityDTO">
-                                                <StackLayout Orientation="Horizontal" Spacing="5">
-                                                    <Label Text="Type:" FontSize="Small" FontAttributes="Bold"/>
-                                                    <Label Text="{Binding DamageTypes.Name}" FontSize="Small"/>
+            <!-- Header with Title -->
+            <Label Text="Your saved cars" 
+                   FontSize="Title" 
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" 
+                   Margin="0,20" />
 
-                                                    <Label Text="Severity:" FontSize="Small" FontAttributes="Bold"/>
-                                                    <Label Text="{Binding Severities.Name}" FontSize="Small"/>
-                                                </StackLayout>
-                                            </DataTemplate>
-                                        </CollectionView.ItemTemplate>
-                                    </CollectionView>
+            <!-- Cars Collection -->
+            <CollectionView ItemsSource="{Binding Cars}" 
+                            SelectionMode="Single" 
+                            SelectedItem="{Binding SelectedCar}" 
+                            SelectionChangedCommand="{Binding UpdateCarCommand}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:SmarterCar">
+                        <Frame BorderColor="LightGray" CornerRadius="10" Padding="10" Margin="10">
+                            <StackLayout>
+                                <!-- Car Information -->
+                                <Label Text="{Binding Tag}" FontSize="Large" FontAttributes="Bold" TextColor="Blue" />
+                                <Label Text="Original Price:" FontSize="Small" TextColor="White" />
+                                <Label Text="{Binding OldPrice, StringFormat='The price of the car: {0:C}'}" FontSize="Small" TextColor="LightGray" />
+                                <Label Text="Selling:" FontSize="Small" TextColor="White" />
+                                <Label Text="{Binding NewPrice, StringFormat='Selling price: {0:C}'}" FontSize="Small" TextColor="Red" />
+                                <Label Text="Kilometers:" FontSize="Small" TextColor="White" />
+                                <Label Text="{Binding KmAmount}" FontSize="Small" TextColor="LightGray" />
+                                <Label Text="Year Purchased:" FontSize="Small" TextColor="White" />
+                                <Label Text="{Binding YearBought}" FontSize="Small" TextColor="LightGray" />
 
-                                    <!-- Display Car Photos -->
-                                    <CollectionView ItemsSource="{Binding Photos}" ItemsLayout="HorizontalList">
-                                        <CollectionView.ItemTemplate>
-                                            <DataTemplate>
-                                                <Image Source="{Binding}" Aspect="AspectFill" HeightRequest="100" WidthRequest="100" Margin="5,0" />
-                                            </DataTemplate>
-                                        </CollectionView.ItemTemplate>
-                                    </CollectionView>
-                                </StackLayout>
-                            </Frame>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-            
+                                <!-- Damage Details -->
+                                <Label Text="Damage Information:" FontSize="Small" FontAttributes="Bold" TextColor="White" Margin="10,0"/>
+                                <CollectionView ItemsSource="{Binding CarSeverities}" ItemsLayout="VerticalList">
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate x:DataType="models:CarSeverityDTO">
+                                            <StackLayout Orientation="Horizontal" Spacing="10">
+                                                <Label Text="Damage Type:" FontSize="Small" FontAttributes="Bold"/>
+                                                <Label Text="{Binding DamageTypes.Name}" FontSize="Small" />
+
+                                                <Label Text="Severity:" FontSize="Small" FontAttributes="Bold"/>
+                                                <Label Text="{Binding Severities.Name}" FontSize="Small" />
+                                            </StackLayout>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+
+                                
+                            </StackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </StackLayout>
+    </ScrollView>
+
 </ContentPage>

@@ -151,18 +151,42 @@ namespace SmartCar.Services
         {
             try
             {
+                // Log the request data (the JSON body being sent)
                 string url = BASE_URL + endPoint;
+                string jsonRequest = JsonConvert.SerializeObject(data);  // Serializing data to JSON string
+                System.Diagnostics.Debug.WriteLine("Request JSON: " + jsonRequest);
+
+                // Send the PUT request
                 var response = await client.PutAsJsonAsync(url, data);
-                if (response.StatusCode != System.Net.HttpStatusCode.OK)
+
+                // Check if the response status code is OK or NoContent
+                if (response.StatusCode != System.Net.HttpStatusCode.OK && response.StatusCode != System.Net.HttpStatusCode.NoContent)
                 {
+                    // If not OK or NoContent, log the response content for debugging purposes
+                    string responseContent = await response.Content.ReadAsStringAsync();
+                    System.Diagnostics.Debug.WriteLine("Response Content: " + responseContent);
+
+                    // Throw an exception with the status code
                     throw new Exception("Request failed with status code " + response.StatusCode);
                 }
+
+                // Optionally, log the response if you want to view it (for success case)
+                string successResponse = await response.Content.ReadAsStringAsync();
+                System.Diagnostics.Debug.WriteLine("Successful Response: " + successResponse);
+
+                // You could deserialize and return the response content if needed
+                // var result = JsonConvert.DeserializeObject<YourResponseType>(successResponse);
+                // return result;
             }
-            catch
+            catch (Exception ex)
             {
+                // Log the exception message
+                System.Diagnostics.Debug.WriteLine("Error: " + ex.Message);
                 throw;
             }
         }
+
+
 
         public static async Task<HttpResponseMessage> DeleteAsync(string endPoint)
         {

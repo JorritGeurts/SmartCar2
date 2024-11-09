@@ -4,114 +4,121 @@
              xmlns:models="clr-namespace:SmartCar.Models"
              x:Class="SmartCar.Views.HomePage"
              x:DataType="viewModels:IHomeViewModel"
-             Title="SmartCar">
+             Title="Homepage">
 
     <ContentPage.Content>
         <ScrollView>
-            <StackLayout Padding="20" Spacing="10">
-                <!-- Display photos horizontally -->
-                <ScrollView Orientation="Horizontal">
-                    <CollectionView ItemsSource="{Binding Photos}" ItemsLayout="HorizontalList">
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <StackLayout>
-                                    <Image Source="{Binding}" Aspect="AspectFill" HeightRequest="100" WidthRequest="100" Margin="5,0" />
-                                    <Button Text="Delete Photo" Command="{Binding Path=BindingContext.RemovePhotoCommand, Source={RelativeSource AncestorType={x:Type Page}}}" CommandParameter="{Binding}" HorizontalOptions="Center" />
-                                </StackLayout>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                </ScrollView>
-                <HorizontalStackLayout Spacing="5" HorizontalOptions="Center" IsVisible="{Binding CanPickOrTakePhoto}">
-                    <Button Command="{Binding PickPhotoCommand}" HorizontalOptions="Start" Text="Pick a picture" />
-                    <Button Command="{Binding TakePhotoCommand}" HorizontalOptions="End" Text="Take a picture" />
-                    <ActivityIndicator IsRunning="{Binding IsRunning}" />
-                </HorizontalStackLayout>
-                <!-- Add More Photos button, visible only if there's at least one photo -->
-                <HorizontalStackLayout Spacing="5" HorizontalOptions="Center" IsVisible="{Binding HasPhotos}">
-                    <Button Text="Add More Photos..." Command="{Binding ShowAddPhotoMenuCommand}" HorizontalOptions="Start" Margin="10,0,10,0" />
-                </HorizontalStackLayout>
-                <Frame BorderColor="LightGray" CornerRadius="10" Padding="10" Margin="0,10,0,0" >
-                    <StackLayout IsVisible="{Binding HasPhotos}">
-                        <Label Text="{Binding ClassifiedCar.Name}" FontSize="Large" FontAttributes="Bold" />
-                        <Label Text="{Binding ClassifiedCar.OldPrice}" FontSize="Large" FontAttributes="Bold" />
+            <StackLayout Padding="20" Spacing="15">
+
+                <!-- Header with Title -->
+                <Label Text="Calculate Your Car's Selling Price" 
+                   FontSize="Title" 
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" 
+                   Margin="0,20" />
+
+                <!-- Photo Collection -->
+                
+                    <ScrollView Orientation="Horizontal">
+                        <CollectionView ItemsSource="{Binding Photos}" ItemsLayout="HorizontalList" Margin="0,10">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackLayout Padding="5">
+                                        <Image Source="{Binding}" Aspect="AspectFill" HeightRequest="100" WidthRequest="100" Margin="0,5,0,5" />
+                                        <Button Text="Delete" Command="{Binding Path=BindingContext.RemovePhotoCommand, Source={RelativeSource AncestorType={x:Type Page}}}" 
+                                            CommandParameter="{Binding}" 
+                                            BackgroundColor="Crimson" 
+                                            TextColor="White"
+                                            FontSize="Micro"
+                                            HorizontalOptions="Center" />
+                                    </StackLayout>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </ScrollView>
+                    <HorizontalStackLayout Spacing="10" HorizontalOptions="Center" IsVisible="{Binding CanPickOrTakePhoto}">
+                        <Button Command="{Binding PickPhotoCommand}" Text="Pick a Picture" BackgroundColor="DodgerBlue" TextColor="White"/>
+                        <Button Command="{Binding TakePhotoCommand}" Text="Take a Picture" BackgroundColor="DodgerBlue" TextColor="White"/>
+                        <ActivityIndicator IsRunning="{Binding IsRunning}" HorizontalOptions="Center" VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+              
+
+                <!-- Car Details Frame -->
+                <Frame BorderColor="LightGray" CornerRadius="10" Padding="15" Margin="0,10">
+                    <StackLayout>
+                        <Label Text="Car Information" FontSize="Medium" FontAttributes="Bold" TextColor="White" />
+                        <Label Text="{Binding ClassifiedCar.Name, StringFormat='Your cars name: {0}'}" FontSize="Large" FontAttributes="Bold" TextColor="Blue" Margin="0,5,0,0"/>
+                        <Label Text="{Binding ClassifiedCar.OldPrice, StringFormat='The price of your car: {0:C}'}" FontSize="Small" TextColor="LightGray"/>
                         <StackLayout IsVisible="{Binding ClassifiedCar.IsDamaged}">
-                            <Label Text="{Binding ClassifiedCar.NewPrice}" FontSize="Large" FontAttributes="Bold" />
+                            <Label Text="{Binding ClassifiedCar.NewPrice, StringFormat='The selling price for your car: {0:C}'}" FontSize="Small" TextColor="Red"/>
                         </StackLayout>
                     </StackLayout>
                 </Frame>
-                <Frame BorderColor="LightGray" CornerRadius="10" Padding="10">
-                    <StackLayout IsVisible="{Binding HasPhotos}">
-                        <Label Text="Specs" FontSize="Medium" FontAttributes="Bold" />
-                        <Label Text="{Binding ClassifiedCar.Spec.Engine}" Margin="0,5,0,0" FontSize="Small" />
-                        <Label Text="{Binding ClassifiedCar.Spec.Acceleration}" FontSize="Small" />
-                        <Label Text="{Binding ClassifiedCar.Spec.Transmission}" FontSize="Small" />
+
+                <!-- Specifications -->
+                <Frame BorderColor="LightGray" CornerRadius="10" Padding="15">
+                    <StackLayout>
+                        <Label Text="Specifications" FontSize="Medium" FontAttributes="Bold" TextColor="White" />
+                        <Label Text="{Binding ClassifiedCar.Spec.Engine, StringFormat='Engine: {0}'}" FontSize="Small" TextColor="LightGray" Margin="0,5,0,0"/>
+                        <Label Text="{Binding ClassifiedCar.Spec.Acceleration, StringFormat='Acceleration: {0}'}" FontSize="Small" TextColor="LightGray"/>
+                        <Label Text="{Binding ClassifiedCar.Spec.Transmission, StringFormat='Transmission: {0}'}" FontSize="Small" TextColor="LightGray"/>
                     </StackLayout>
                 </Frame>
-                <Frame BorderColor="LightGray" CornerRadius="10" Padding="10" Margin="10" IsVisible="{Binding IsCarClassified}">
-                    <StackLayout IsVisible="{Binding HasPhotos}">
-                        <Label Text="Car Details" FontSize="Medium" FontAttributes="Bold" />
-                        <StackLayout Padding="10">
-                            <!-- Kilometer Amount Label and Entry -->
-                            <Label Text="Kilometer Amount*" 
-                               FontSize="Small" 
-                               VerticalOptions="Center" />
-                            <Entry Placeholder="Kilometer Amount*" 
-                               Text="{Binding ClassifiedCar.KmAmount}" 
-                               Keyboard="Numeric" />    
 
-                            <!-- Year Bought Label and Entry -->
-                            <Label Text="Year Bought*" 
-                               FontSize="Small" 
-                               VerticalOptions="Center" />  
-                            <Entry Placeholder="Year Bought*" 
-                                Text="{Binding ClassifiedCar.YearBought}" 
-                                Keyboard="Numeric" />
+                <!-- Car Damage Information -->
+                <Frame BorderColor="LightGray" CornerRadius="10" Padding="15" Margin="10,0" IsVisible="{Binding IsCarClassified}">
+                    <StackLayout>
+                        <Label Text="Car Details" FontSize="Medium" FontAttributes="Bold" TextColor="White"/>
+                        <StackLayout Padding="10">
+                            <Label Text="Kilometer Amount*" FontSize="Small" />
+                            <Entry Placeholder="Enter Kilometer Amount" Text="{Binding ClassifiedCar.KmAmount}" Keyboard="Numeric" />
+                            <Label Text="Year Bought*" FontSize="Small" />
+                            <Entry Placeholder="Enter Year Bought" Text="{Binding ClassifiedCar.YearBought}" Keyboard="Numeric" />
                         </StackLayout>
                         <Label Text="Damage" FontSize="Small" />
                         <CheckBox IsChecked="{Binding ClassifiedCar.IsDamaged}" />
                         <StackLayout IsVisible="{Binding ClassifiedCar.IsDamaged}">
+                            <Label Text="Damage Details" FontSize="Medium" FontAttributes="Bold" TextColor="White"/>
                             <CollectionView ItemsSource="{Binding DamageEntries}">
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate x:DataType="models:DamageEntry">
                                         <HorizontalStackLayout Spacing="10">
-                                            <!-- Damage Type Picker -->
                                             <StackLayout>
-                                                <Label Text="Damage Type" />
-                                                <Picker 
-                                                    ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DamageTypes}" 
+                                                <Label Text="Damage Type" FontSize="Small" />
+                                                <Picker ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DamageTypes}" 
                                                     SelectedItem="{Binding SelectedDamageType}">
                                                     <Picker.ItemDisplayBinding>
                                                         <Binding Path="Name" />
-                                                        <!-- Bind to the Name property -->
                                                     </Picker.ItemDisplayBinding>
                                                 </Picker>
                                             </StackLayout>
-
-                                            <!-- Severity Picker -->
                                             <StackLayout>
-                                                <Label Text="Damage Severity" />
-                                                <Picker 
-                                                    ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.Severities}" 
+                                                <Label Text="Severity" FontSize="Small" />
+                                                <Picker ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.Severities}" 
                                                     SelectedItem="{Binding SelectedSeverity}" 
-                                                    IsEnabled="{Binding IsDamageTypeSelected}"
-                                                    SelectedIndexChanged="OnSeveritySelected">
+                                                    IsEnabled="{Binding IsDamageTypeSelected}">
                                                     <Picker.ItemDisplayBinding>
                                                         <Binding Path="Name" />
                                                     </Picker.ItemDisplayBinding>
                                                 </Picker>
-
                                             </StackLayout>
                                         </HorizontalStackLayout>
                                     </DataTemplate>
                                 </CollectionView.ItemTemplate>
                             </CollectionView>
-
-                            <Button Text="Add Damage" Command="{Binding AddDamageEntryCommand}" HorizontalOptions="Center" />
+                            <Button Text="Add Damage Entry" Command="{Binding AddDamageEntryCommand}" BackgroundColor="LightBlue" HorizontalOptions="Center"/>
                         </StackLayout>
                     </StackLayout>
                 </Frame>
-                <Button Text="Save" Command="{Binding SaveAllInfoCommand}" HorizontalOptions="Center" IsEnabled="{Binding ClassifiedCar.CanSave}"/>
+
+                <!-- Save Button -->
+                <Button Text="Calculate Selling Price" 
+                    Command="{Binding SaveAllInfoCommand}" 
+                    FontSize="Medium" 
+                    BackgroundColor="Green" 
+                    TextColor="White" 
+                    HorizontalOptions="Center" 
+                    IsEnabled="{Binding ClassifiedCar.CanSave}" />
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>
