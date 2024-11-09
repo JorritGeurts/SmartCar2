@@ -7,7 +7,9 @@ using SmartCar.Models;
 using SmartCar.Services;
 using SmartCar.ViewModels;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
+using System.Runtime.Intrinsics.X86;
 using System.Windows.Input;
 
 namespace SmartCar.ViewModels
@@ -91,6 +93,22 @@ namespace SmartCar.ViewModels
                 SetProperty(ref selectedSeverity, value);
             }
         }
+
+        private double _calculatedPrice;
+        public double CalculatedPrice
+        {
+            get => _calculatedPrice;
+            set
+            {
+                if (_calculatedPrice != value)
+                {
+                    _calculatedPrice = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+
 
 
         public ICommand PickPhotoCommand { get; set; }
@@ -292,9 +310,15 @@ namespace SmartCar.ViewModels
                 await Application.Current.MainPage.DisplayAlert("Error", $"Failed to save data: {ex.Message}", "OK");
             }
         }
-        private void OnClassifiedCarPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) { if (e.PropertyName == nameof(ClassifiedCar.IsDamaged)) { RecalculatePrice(); } }
+        private void OnClassifiedCarPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) 
+        { 
+            if (e.PropertyName == nameof(ClassifiedCar.IsDamaged)) 
+            { 
+                RecalculatePrice(); 
+            } 
+        }
 
-        private void RecalculatePrice()
+        private async void RecalculatePrice()
         {
             if (ClassifiedCar != null)
             {
@@ -313,6 +337,22 @@ namespace SmartCar.ViewModels
                 OnPropertyChanged(nameof(ClassifiedCar.OldPrice)); OnPropertyChanged(nameof(ClassifiedCar.NewPrice));
             }
         }
+
+        public async void CalculatePriceBasedOnDamage(Severities selectedSeverity)
+        {
+            // Assume basePrice is the base price you want to use for calculation
+            double basePrice = ClassifiedCar.NewPrice;
+
+            // Multiply the base price by the selected severity's multiplier
+            double calculatedPrice = basePrice * selectedSeverity.amount;
+
+            // Update the CalculatedPrice property (which is bound to the UI)
+            ClassifiedCar.NewPrice = calculatedPrice;
+
+            // Optionally, you can perform additional operations based on selectedSeverity
+            Console.WriteLine($"Calculated Price based on {selectedSeverity.Name}: {calculatedPrice}");
+        }
+
 
 
         private async Task ClassifyPhotoAsync(FileResult photo)
