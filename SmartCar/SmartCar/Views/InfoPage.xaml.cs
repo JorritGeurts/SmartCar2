@@ -1,3 +1,4 @@
+using SmartCar.Models;
 using SmartCar.ViewModels;
 
 namespace SmartCar.Views;
@@ -11,6 +12,9 @@ public partial class InfoPage : ContentPage
         _viewModel = viewModel;
         BindingContext = viewModel;
     }
+
+    
+
 
     protected override void OnAppearing()
     {
