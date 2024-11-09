@@ -244,13 +244,13 @@ namespace SmartCar.Models
         //Get the Damagetypes from the API
         public async static Task<List<DamageTypes>> GetAllDamageTypes()
         {
-            return await APIService<List<DamageTypes>>.GetAsync("Damages/");
+            return await APIService<List<DamageTypes>>.GetAsync("Damages");
         }
 
         //Get all severities from the API
         public async static Task<List<Severities>> GetAllSeverities()
         {
-            return await APIService<List<Severities>>.GetAsync("Severity/");
+            return await APIService<List<Severities>>.GetAsync("Severity");
         }
 
         public async static Task AddCarSeverity(CarSeverityDTO car)

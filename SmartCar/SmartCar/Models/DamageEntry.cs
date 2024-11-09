@@ -50,9 +50,6 @@ namespace SmartCar.Models
             set => SetProperty(ref severity, value);
         }
 
-
-
-
         private DamageTypes selectedDamageType;
         public DamageTypes SelectedDamageType
         {

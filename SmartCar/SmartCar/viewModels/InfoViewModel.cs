@@ -40,11 +40,10 @@ namespace SmartCar.ViewModels
             
             Messenger.Register<InfoViewModel, RefreshCarMessage>(this, (r,m)=> r.Receive(m));
 
-            LoadCars();
             BindCommands();
         }
 
-        private async void LoadCars()
+        public async void LoadCars()
         {
             //var cars = await _storageService.GetAllCarsAsync();
             //foreach (var car in cars)

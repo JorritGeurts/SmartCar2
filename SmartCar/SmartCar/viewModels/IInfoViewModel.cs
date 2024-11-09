@@ -11,6 +11,8 @@ namespace SmartCar.ViewModels
         ICommand UpdateCarCommand { get; set; }
         SmarterCar SelectedCar { get; set; }
 
+        void LoadCars();
+
 
     }
 }
