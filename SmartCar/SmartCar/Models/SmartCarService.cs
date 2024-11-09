@@ -270,7 +270,7 @@ namespace SmartCar.Models
 
         public static async Task<List<SmarterCar>> GetCarsAsync()
         {
-            return await APIService<List<SmarterCar>>.GetAsync("car");
+            return await APIService<List<SmarterCar>>.GetAsync("Car");
         }
 
     }

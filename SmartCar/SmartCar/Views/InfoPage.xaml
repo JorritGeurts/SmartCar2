@@ -23,14 +23,15 @@
 
                                     <!-- Add Damage Details -->
                                     <Label Text="Damage Information:" FontSize="Small" FontAttributes="Bold" />
-                                    <CollectionView ItemsSource="{Binding DamageEntries}" ItemsLayout="VerticalList">
+                                    <CollectionView ItemsSource="{Binding CarSeverities}" ItemsLayout="VerticalList">
                                         <CollectionView.ItemTemplate>
-                                            <DataTemplate x:DataType="models:DamageEntry">
+                                            <DataTemplate x:DataType="models:CarSeverityDTO">
                                                 <StackLayout Orientation="Horizontal" Spacing="5">
                                                     <Label Text="Type:" FontSize="Small" FontAttributes="Bold"/>
-                                                    <Label Text="{Binding DamageType}" FontSize="Small"/>
+                                                    <Label Text="{Binding DamageTypes.Name}" FontSize="Small"/>
+
                                                     <Label Text="Severity:" FontSize="Small" FontAttributes="Bold"/>
-                                                    <Label Text="{Binding Severity}" FontSize="Small"/>
+                                                    <Label Text="{Binding Severities.Name}" FontSize="Small"/>
                                                 </StackLayout>
                                             </DataTemplate>
                                         </CollectionView.ItemTemplate>

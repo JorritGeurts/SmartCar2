@@ -22,7 +22,7 @@ namespace SmartCarAPI.Controllers
 
             if (severity == null || !severity.Any())
             {
-                return NotFound("No damages found.");
+                return NotFound("Severity not found.");
             }
 
             return Ok(severity);

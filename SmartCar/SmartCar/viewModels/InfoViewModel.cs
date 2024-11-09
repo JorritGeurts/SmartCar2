@@ -55,6 +55,29 @@ namespace SmartCar.ViewModels
 
             //Console.WriteLine($"Total cars loaded: {Cars.Count}"); // Total count debug output
             Cars = new ObservableCollection<SmarterCar>(await SmartCarService.GetCarsAsync());
+
+            foreach (SmarterCar car in Cars)
+            {
+                await LoadDamagesAndSeverities(car);
+            }
+        }
+
+        private async Task LoadDamagesAndSeverities(SmarterCar car)
+        {
+            var carSeverities = await APIService<CarSeverityDTO>.GetCarSeveritiesByCarIdAsync(car.Id);
+
+            if (carSeverities != null)
+            {
+                car.CarSeverities = new ObservableCollection<CarSeverityDTO>(carSeverities);
+
+                foreach (var carSeverity in carSeverities)
+                {
+                    // Fetch related Damage and Severity data if necessary (example)
+                    carSeverity.DamageTypes = await APIService<DamageTypes>.GetAsync($"Damages/{carSeverity.DamageId}");
+                    carSeverity.Severities = await APIService<Severities>.GetAsync($"Severity/{carSeverity.SeverityId}");
+                }
+
+            }
         }
 
         private void BindCommands()

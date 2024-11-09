@@ -266,6 +266,10 @@ namespace SmartCar.ViewModels
                         CarId = carId,
                         SeverityId = damageEntry.SelectedSeverity.Id,
                         DamageId = damageEntry.SelectedDamageType.Id,
+
+                        SmarterCar = dto,
+                        DamageTypes = selectedDamageType,
+                        Severities = selectedSeverity,
                     };
 
                     // Call the API to save this severity
