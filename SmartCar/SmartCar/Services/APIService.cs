@@ -187,5 +187,20 @@ namespace SmartCar.Services
                 throw;
             }
         }
+
+        public static async Task<double> GetSeverityAmountAsync(int severityId)
+        {
+            try 
+            { 
+                string url = $"{BASE_URL}Severity/{severityId}"; 
+                var response = await client.GetFromJsonAsync<double>(url); 
+                return response; 
+            } 
+            catch (Exception ex) 
+            { 
+                Console.WriteLine($"Error fetching severity amount: {ex.Message}"); 
+                throw;
+            }
+        }
     }
 }

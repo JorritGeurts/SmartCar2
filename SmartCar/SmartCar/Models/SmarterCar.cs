@@ -116,7 +116,7 @@ namespace SmartCar.Models
             set => SetProperty(ref photos, value);
         }
 
-        public ObservableCollection<CarSeverityDTO> carSeverities;
+        private ObservableCollection<CarSeverityDTO> carSeverities;
         public ObservableCollection<CarSeverityDTO> CarSeverities
         {
             get => carSeverities;

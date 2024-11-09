@@ -294,7 +294,7 @@ namespace SmartCar.ViewModels
         }
         private void OnClassifiedCarPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) { if (e.PropertyName == nameof(ClassifiedCar.IsDamaged)) { RecalculatePrice(); } }
 
-        private void RecalculatePrice()
+        private async void RecalculatePrice()
         {
             if (ClassifiedCar != null)
             {
@@ -303,14 +303,24 @@ namespace SmartCar.ViewModels
 
                 if (ClassifiedCar.IsDamaged)
                 {
-                    newPrice *= 0.8; // Apply a 20% discount for damaged cars
+                    newPrice *= 0.9; 
+                    foreach(var entry in DamageEntries)
+                    {
+                        if(entry.SelectedSeverity != null)
+                        {
+                            var amount = await SmartCarService.GetSeverityAmountAsync(entry.SelectedSeverity.Id);
+                            newPrice *= amount;
+                        }
+                    }
+                    
                 }
 
                 ClassifiedCar.OldPrice = basePrice;
                 ClassifiedCar.NewPrice = newPrice;
 
                 // Notify that ClassifiedCar has been updated
-                OnPropertyChanged(nameof(ClassifiedCar.OldPrice)); OnPropertyChanged(nameof(ClassifiedCar.NewPrice));
+                OnPropertyChanged(nameof(ClassifiedCar.OldPrice));
+                OnPropertyChanged(nameof(ClassifiedCar.NewPrice));
             }
         }
 

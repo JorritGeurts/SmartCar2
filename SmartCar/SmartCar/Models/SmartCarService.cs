@@ -273,5 +273,10 @@ namespace SmartCar.Models
             return await APIService<List<SmarterCar>>.GetAsync("Car");
         }
 
+        public static async Task<double> GetSeverityAmountAsync(int severityId) 
+        { 
+            return await APIService<double>.GetSeverityAmountAsync(severityId); 
+        }
+
     }
 }
