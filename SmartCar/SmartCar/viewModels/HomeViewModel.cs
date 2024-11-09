@@ -65,8 +65,7 @@ namespace SmartCar.ViewModels
         private SmarterCar classifiedCar;
         public SmarterCar ClassifiedCar
         {
-            get => classifiedCar;
-            set => SetProperty(ref classifiedCar, value);
+            get => classifiedCar; set { SetProperty(ref classifiedCar, value); if (classifiedCar != null) { classifiedCar.PropertyChanged += OnClassifiedCarPropertyChanged; } }
         }
 
         public ObservableCollection<DamageTypes> DamageTypes { get; set; } = new ObservableCollection<DamageTypes>();
@@ -289,19 +288,26 @@ namespace SmartCar.ViewModels
                 await Application.Current.MainPage.DisplayAlert("Error", $"Failed to save data: {ex.Message}", "OK");
             }
         }
+        private void OnClassifiedCarPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) { if (e.PropertyName == nameof(ClassifiedCar.IsDamaged)) { RecalculatePrice(); } }
 
         private void RecalculatePrice()
         {
-            double basePrice = ClassifiedCar.Price;
-            double newPrice = basePrice;
-            if (ClassifiedCar.IsDamaged)
+            if (ClassifiedCar != null)
             {
-                newPrice *= 0.8;
+                double basePrice = ClassifiedCar.Price;
+                double newPrice = basePrice;
+
+                if (ClassifiedCar.IsDamaged)
+                {
+                    newPrice *= 0.8; // Apply a 20% discount for damaged cars
+                }
+
+                ClassifiedCar.OldPrice = basePrice;
+                ClassifiedCar.NewPrice = newPrice;
+
+                // Notify that ClassifiedCar has been updated
+                OnPropertyChanged(nameof(ClassifiedCar.OldPrice)); OnPropertyChanged(nameof(ClassifiedCar.NewPrice));
             }
-            
-            ClassifiedCar.OldPrice = basePrice;
-            ClassifiedCar.NewPrice = newPrice;
-            OnPropertyChanged(nameof(ClassifiedCar));
         }
 
 
