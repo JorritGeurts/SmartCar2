@@ -49,14 +49,14 @@ namespace SmartCar.ViewModels
             }
         }
 
-        private ObservableCollection<DamageEntry> _damageEntries = new ObservableCollection<DamageEntry>
+        private ObservableCollection<DamageEntry> damageEntries = new ObservableCollection<DamageEntry>
         {
             new DamageEntry()
         };
         public ObservableCollection<DamageEntry> DamageEntries
         {
-            get => _damageEntries;
-            set => SetProperty(ref _damageEntries, value);
+            get => damageEntries;
+            set => SetProperty(ref damageEntries, value);
         }
 
         public bool HasPhotos => Photos?.Count >= 1;
@@ -301,23 +301,34 @@ namespace SmartCar.ViewModels
                     newPrice *= 0.9; // Apply a 10% discount for damaged cars
                     foreach (var entry in DamageEntries) 
                     { 
-                        if (entry.SelectedSeverity != null) 
-                        { 
-                            var severity = await SmartCarService.GetSeverityByIdAsync(entry.SelectedSeverity.Id); 
-                            double amount = severity.Amount; // Retrieve the amount from the fetched CarSeverity
-                            newPrice *= amount; 
+                        if (entry.SelectedSeverity != null) {
+                            // Debug: Log SelectedSeverity details
+                            Console.WriteLine($"SelectedSeverity: {entry.SelectedSeverity.Name}, Id: {entry.SelectedSeverity.Id}"); 
+                            try 
+                            { 
+                                var severity = await SmartCarService.GetSeverityByIdAsync(entry.SelectedSeverity.Id); 
+                                double amount = severity.Amount; // Retrieve the amount from the fetched CarSeverity
+                                newPrice *= amount;
+                            }
+                            catch (Exception ex) { // Debug: Log any exceptions from the API call
+                                 Console.WriteLine($"Error fetching severity amount: {ex.Message}");
+                            }
                         } 
-                    } 
-                } 
-                ClassifiedCar.OldPrice = basePrice; 
+                        else
+                        { // Debug: Log if SelectedSeverity is null
+                           Console.WriteLine("SelectedSeverity is null."); 
+                        } 
+                    }
+                }
+                ClassifiedCar.OldPrice = basePrice;
                 ClassifiedCar.NewPrice = newPrice; // Notify that ClassifiedCar has been updated
                 OnPropertyChanged(nameof(ClassifiedCar.OldPrice));
-                OnPropertyChanged(nameof(ClassifiedCar.NewPrice)); 
+                OnPropertyChanged(nameof(ClassifiedCar.NewPrice));
             } 
         }
 
 
-                    private async Task ClassifyPhotoAsync(FileResult photo)
+        private async Task ClassifyPhotoAsync(FileResult photo)
         {
             if (photo is { })
             {
