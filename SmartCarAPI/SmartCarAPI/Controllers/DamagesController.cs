@@ -33,5 +33,21 @@ namespace SmartCarAPI.Controllers
 
             return Ok(damages);
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetDamageById(int id)
+        {
+            // Attempt to retrieve the CarSeverity by its Id
+            var damage = await _context.Damage.FindAsync(id);
+
+            if (damage == null)
+            {
+                // Return a 404 if the specified Id does not exist
+                return NotFound($"CarSeverity with Id {id} not found.");
+            }
+
+            // Return the carSeverity object if found
+            return Ok(damage);
+        }
     }
 }
