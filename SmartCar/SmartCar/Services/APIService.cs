@@ -211,5 +211,39 @@ namespace SmartCar.Services
                 throw;
             }
         }
+
+        public static async Task<List<CarSeverityDTO>> DeleteByCarId(int carId)
+        {
+            try
+            {
+                string url = $"{BASE_URL}CarSeverity/ByCarId/{carId}";
+                var response = await client.DeleteAsync(url);
+
+                if (response.StatusCode == HttpStatusCode.NotFound)
+                {
+                    // If no car severities are found (404), just return an empty list
+                    Console.WriteLine("No car severities found.");
+                    return new List<CarSeverityDTO>(); // or return null, based on your needs
+                }
+                else
+                {
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var jsonData = await response.Content.ReadAsStringAsync();
+                        return JsonConvert.DeserializeObject<List<CarSeverityDTO>>(jsonData);
+                    }
+                    else
+                    {
+                        throw new Exception($"Error fetching car severities: {response.ReasonPhrase}");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in GetCarSeveritiesByCarIdAsync: {ex.Message}");
+                throw;
+            }
+        }
     }
 }

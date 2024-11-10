@@ -96,7 +96,8 @@
                                                 <Label Text="Severity" FontSize="Small" />
                                                 <Picker ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.Severities}" 
                                                     SelectedItem="{Binding SelectedSeverity}" 
-                                                    IsEnabled="{Binding IsDamageTypeSelected}">
+                                                    IsEnabled="{Binding IsDamageTypeSelected}"
+                                                    SelectedIndexChanged="OnSeveritySelected">
                                                     <Picker.ItemDisplayBinding>
                                                         <Binding Path="Name" />
                                                     </Picker.ItemDisplayBinding>

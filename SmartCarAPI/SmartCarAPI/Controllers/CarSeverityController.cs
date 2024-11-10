@@ -74,5 +74,29 @@ namespace SmartCarAPI.Controllers
             }
         }
 
+        [HttpDelete("ByCarId/{carId}")]
+        public async Task<IActionResult> DeleteByCarId(int carId)
+        {
+            // Fetch records that match the specified CarId
+            var carSeverities = await _context.CarSeverity
+                .Where(cs => cs.CarId == carId)
+                .Include(cs => cs.Damage)
+                .Include(cs => cs.Severity)
+                .ToListAsync();
+
+            // Check if any records were found
+            if (carSeverities == null || !carSeverities.Any())
+            {
+                return NotFound($"No car severities found for CarId: {carId}");
+            }
+
+            foreach (var car in carSeverities)
+            {
+                _context.CarSeverity.Remove(car);
+            }
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
     }
 }

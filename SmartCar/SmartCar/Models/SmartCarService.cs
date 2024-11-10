@@ -265,6 +265,8 @@ namespace SmartCar.Models
 
         public async static Task DeleteCarAsync(int id)
         {
+            await APIService<SmarterCar>.DeleteByCarId(id);
+
             await APIService<SmarterCar>.DeleteAsync($"car/{id}");
         }
 
